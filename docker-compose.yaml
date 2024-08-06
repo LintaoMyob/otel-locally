@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.98.0
+    container_name: otel-collector
+    volumes:
+      - ./config.yaml:/etc/otelcol-contrib/config.yaml
+    ports:
+      - "127.0.0.1:4317:4317"
+      - "127.0.0.1:55679:55679"
+    networks:
+      otel:
+        aliases:
+          - otelcollector
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        
+  jaeger:
+    image: jaegertracing/all-in-one:1.6
+    container_name: jaeger
+    ports:
+      - "127.0.0.1:16686:16686"
+    networks:
+      otel:
+        aliases:
+          - jaeger
+
+networks:
+  otel:

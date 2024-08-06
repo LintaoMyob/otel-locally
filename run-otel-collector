@@ -1,5 +1,0 @@
-#!/bin/bash
-
-docker run -d --rm --name otel-collector -v $(pwd)/config.yaml:/etc/otelcol-contrib/config.yaml -p 127.0.0.1:4317:4317 -p 127.0.0.1:55679:55679 --network otel --network-alias otelcollector otel/opentelemetry-collector-contrib:0.98.0 \
-  2>&1 | tee collector-output.txt # Optionally tee output for easier search later
-
